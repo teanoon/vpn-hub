@@ -1,5 +1,25 @@
 version: '3'
 services:
   vpn:
-    container_name: vpn
     build: vpn
+    container_name: vpn
+  vpn_ss:
+    image: vpnhub_vpn
+    container_name: vpn_ss
+    command: 'openvpn --config config.ovpn'
+    volumes:
+      - ./vpn-ss:/vpn
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+  vpn_express:
+    build: vpn-express
+    container_name: vpn_express
+    command: bash -c 'expressvpn connect hk3 && tail -F -n0 /etc/hosts'
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - EXPRESSVPN_ACTIVATION_CODE=$EXPRESSVPN_ACTIVATION_CODE

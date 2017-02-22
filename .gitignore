@@ -1,5 +1,5 @@
-vpn/*
+vpn-ss
 .zsh_history
+.env
 
 !.keep
-!vpn/Dockerfile
